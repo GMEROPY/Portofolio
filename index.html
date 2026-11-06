@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Okta Aditya Dwi Nugroho — Web Developer & Content Creator</title>
+<meta name="description" content="Portofolio Okta Aditya Dwi Nugroho, siswa TI: Web Developer, Programmer, dan Video Editor. Lihat project website dan keahlian saya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#171412;
+    --bg-alt:#1e1a18;
+    --surface:#171414;
+    --surface-2:#1d1818;
+    --red-deep:#4a0d10;
+    --red:#7a1e1e;
+    --red-bright:#a53232;
+    --text:#f1ece7;
+    --text-muted:#948d89;
+    --gold:#d4a441;
+    --gold-deep:#8a672a;
+    --border:rgba(241,236,231,0.09);
+    --font-display:'Anton', sans-serif;
+    --font-body:'Sora', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------- background texture ---------- */
+  .bg-fx{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 45% at 82% 8%, rgba(122,30,30,0.32), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 8% 90%, rgba(122,30,30,0.16), transparent 60%),
+      linear-gradient(var(--bg), var(--bg));
+  }
+  .bg-fx::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(241,236,231,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(241,236,231,0.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse 80% 80% at 50% 30%, #000 40%, transparent 90%);
+  }
+
+  .bg-orb{
+    position:fixed; z-index:0; pointer-events:none;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:0.6;
+    will-change:transform;
+  }
+  .bg-orb-1{
+    width:38vw; height:38vw; max-width:480px; max-height:480px;
+    top:-8vw; right:-6vw;
+    background:radial-gradient(circle, rgba(165,50,50,0.55), transparent 70%);
+    animation:orbFloat1 20s ease-in-out infinite;
+  }
+  .bg-orb-2{
+    width:30vw; height:30vw; max-width:400px; max-height:400px;
+    bottom:-8vw; left:-6vw;
+    background:radial-gradient(circle, rgba(212,164,65,0.24), transparent 70%);
+    animation:orbFloat2 26s ease-in-out infinite;
+  }
+  .bg-orb-3{
+    width:24vw; height:24vw; max-width:320px; max-height:320px;
+    top:38%; left:58%;
+    background:radial-gradient(circle, rgba(122,30,30,0.32), transparent 70%);
+    animation:orbFloat3 32s ease-in-out infinite;
+  }
+  @keyframes orbFloat1{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(-7vw,6vw) scale(1.15);}
+  }
+  @keyframes orbFloat2{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(6vw,-5vw) scale(1.12);}
+  }
+  @keyframes orbFloat3{
+    0%,100%{transform:translate(0,0) scale(1);}
+    33%{transform:translate(-5vw,-6vw) scale(0.9);}
+    66%{transform:translate(4vw,5vw) scale(1.08);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bg-orb{animation:none !important;}
+  }
+
+  body:has(.lanyard.dragging) .bg-orb,
+  body:has(.lanyard.settling) .bg-orb{animation-play-state:paused;}
+  .bg-orb{filter:blur(60px);}
+
+  section, header, footer{position:relative; z-index:1;}
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+
+  ::selection{background:var(--red); color:#fff;}
+
+  /* ---------- navbar ---------- */
+  .navbar{
+    position:sticky; top:0; z-index:50;
+  }
+  .navbar::before{
+    content:""; position:absolute; inset:0; z-index:1;
+    background:var(--bg);
+    border-bottom:1px solid var(--border);
+  }
+  .logo, .nav-toggle{position:relative; z-index:2;}
+  .navbar::after{
+    content:"";
+    position:absolute; left:0; right:0; top:100%;
+    height:36px;
+    background:linear-gradient(var(--bg-alt), transparent);
+    pointer-events:none; z-index:-1;
+  }
+  .nav-inner{
+    max-width:1200px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+  }
+  .logo{
+    font-family:var(--font-mono);
+    font-size:1.15rem; font-weight:600;
+    letter-spacing:0.5px;
+  }
+  .logo span{color:var(--red-bright);}
+  .nav-links{
+    display:flex; gap:36px;
+    font-family:var(--font-mono);
+    font-size:0.85rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .nav-links a{
+    position:relative; padding:6px 2px; color:var(--text-muted);
+    transition:color .25s ease;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:0;
+    width:0; height:1px; background:var(--red-bright);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{width:100%;}
+
+  .nav-toggle{
+    display:none; background:none; border:none; cursor:pointer;
+    flex-direction:column; gap:5px; padding:8px;
+  }
+  .nav-toggle span{width:24px; height:2px; background:var(--text); display:block;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:1200px; margin:0 auto;
+    min-height:88vh;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    align-items:center;
+    gap:40px;
+    padding:60px 32px;
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    color:var(--red-bright);
+    font-size:0.85rem;
+    letter-spacing:2px;
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:""; width:26px; height:1px; background:var(--red-bright);
+  }
+  .hero-name{
+    font-family:var(--font-display);
+    font-weight:400;
+    line-height:0.92;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .hero-name .line1{
+    display:block; font-size:clamp(2.4rem, 6vw, 4.6rem);
+    color:var(--text);
+  }
+  .hero-name .line2{
+    display:block; font-size:clamp(2.4rem, 6vw, 4.6rem);
+    color:var(--text);
+    margin-top:4px;
+  }
+  .hero-name .line2 .accent{
+    color:var(--red-bright);
+  }
+
+  .hero-typing{
+    margin-top:26px;
+    font-family:var(--font-mono);
+    font-size:clamp(0.95rem, 1.6vw, 1.2rem);
+    color:var(--text-muted);
+    min-height:1.6em;
+  }
+  .hero-typing #typing{color:var(--text);}
+  .cursor{
+    display:inline-block; color:var(--red-bright);
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .social-row{
+    margin-top:36px;
+    display:flex; gap:14px;
+  }
+  .social-row a{
+    width:46px; height:46px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface);
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .social-row a svg{width:19px; height:19px; stroke:var(--text-muted); transition:stroke .25s ease;}
+  .social-row a:hover{
+    transform:translateY(-4px);
+    border-color:var(--red-bright);
+    background:var(--red-deep);
+  }
+  .social-row a:hover svg{stroke:var(--text);}
+  .social-wa svg{fill:var(--text-muted); stroke:none; transition:fill .25s ease;}
+  .social-wa:hover svg{fill:#25D366;}
+  .social-toko:hover svg{stroke:var(--gold);}
+
+  /* ---------- hanging ID card ---------- */
+  .hero-right{
+    display:flex; justify-content:center; align-items:flex-start;
+    height:100%;
+    padding-top:0;
+    margin-top:-160px;
+  }
+  .lanyard{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center;
+    animation:drop 1.1s cubic-bezier(.17,.85,.3,1.2);
+    transform-origin:top center;
+    touch-action:none;
+    -webkit-user-select:none; user-select:none;
+    cursor:grab;
+    will-change:transform;
+  }
+  .lanyard.dragging{
+    cursor:grabbing;
+  }
+  .lanyard.dragging .id-card{
+    animation-play-state:paused;
+    box-shadow:0 35px 65px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  .lanyard.settling .id-card{
+    animation-play-state:paused;
+  }
+  .strap{
+    position:relative;
+    width:34px; height:190px;
+    background:linear-gradient(180deg, var(--red-deep) 0%, #180505 60%, #0a0302 100%);
+    clip-path:polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
+    box-shadow:inset 0 0 12px rgba(0,0,0,0.4);
+  }
+  .strap-text{
+    position:absolute; top:0; left:50%;
+    transform:translateX(-50%);
+    writing-mode:vertical-rl;
+    text-orientation:upright;
+    font-family:var(--font-mono);
+    font-size:0.6rem;
+    letter-spacing:2px;
+    font-weight:700;
+    color:rgba(241,236,231,0.55);
+    white-space:nowrap;
+    pointer-events:none;
+  }
+
+  .clip{
+    width:20px; height:14px;
+    background:linear-gradient(160deg, #4a4a4a, #2a2a2a);
+    border-radius:3px;
+    margin-bottom:-4px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.5);
+    z-index:2;
+  }
+  .id-card{
+    margin-top:-6px;
+    width:270px;
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02);
+    animation:swing 5s ease-in-out infinite;
+    animation-delay:1.1s;
+    transform-origin:top center;
+  }
+  .card-hole{
+    width:40px; height:6px; background:var(--bg);
+    border-radius:4px; margin:0 auto 16px;
+  }
+  .card-photo{
+    width:100%; aspect-ratio:4/5;
+    border-radius:12px;
+    background:
+      radial-gradient(circle at 50% 35%, rgba(165,50,50,0.25), transparent 60%),
+      var(--bg-alt);
+    border:1px dashed rgba(241,236,231,0.15);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px;
+    color:var(--text-muted);
+  }
+  .card-photo svg{width:34px; height:34px; stroke:var(--text-muted);}
+  .card-photo span{font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.5px; text-align:center; padding:0 10px;}
+  .card-photo img{
+    width:100%; height:100%;
+    object-fit:contain;   /* foto selalu tampil utuh, tidak pernah terpotong */
+    border-radius:12px;
+  }
+  .card-divider{height:1px; background:var(--border); margin:16px 0;}
+  .card-info .card-role{
+    font-family:var(--font-mono); font-size:0.72rem;
+    color:var(--red-bright); text-transform:uppercase; letter-spacing:1px;
+  }
+  .card-id{
+    margin-top:10px; font-family:var(--font-mono); font-size:0.65rem;
+    color:var(--text-muted); letter-spacing:1px;
+  }
+
+  @media (min-width:881px){
+    .strap{height:340px;}
+  }
+
+  @keyframes drop{
+    0%{transform:translateY(-160%) rotate(-6deg);}
+    60%{transform:translateY(6%) rotate(3deg);}
+    80%{transform:translateY(-2%) rotate(-1.5deg);}
+    100%{transform:translateY(0) rotate(0deg);}
+  }
+  @keyframes swing{
+    0%,100%{transform:rotate(-2.5deg);}
+    50%{transform:rotate(2.5deg);}
+  }
+
+  /* ---------- section heading ---------- */
+  .section-head{
+    max-width:1200px; margin:0 auto; padding:0 32px;
+    display:flex; align-items:baseline; gap:16px;
+    margin-bottom:44px;
+  }
+  .section-head .num{
+    font-family:var(--font-mono); color:var(--red-bright); font-size:0.9rem;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    text-transform:uppercase;
+    font-weight:400;
+    letter-spacing:1px;
+  }
+  .section-head .rule{
+    flex:1; height:1px; background:var(--border);
+  }
+
+  /* ---------- project ---------- */
+  .project-section{padding:110px 0 90px;}
+  .project-grid{
+    max-width:1200px; margin:0 auto; padding:0 32px;
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:26px;
+  }
+  .project-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  .project-card:hover{transform:translateY(-6px); border-color:var(--red-bright);}
+  .project-card .thumb{
+    width:100%; aspect-ratio:16/10; object-fit:cover; display:block;
+    filter:grayscale(0.3) contrast(1.05);
+  }
+  .project-card .p-body{padding:18px 20px 22px;}
+  .project-card .p-tag{
+    font-family:var(--font-mono); font-size:0.68rem; color:var(--red-bright);
+    text-transform:uppercase; letter-spacing:1px;
+  }
+  .project-card h3{margin-top:8px; font-size:1.05rem; font-weight:700;}
+  .project-card p{margin-top:8px; font-size:0.85rem; color:var(--text-muted); line-height:1.5;}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(5,4,4,0.82);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .modal-overlay.active{opacity:1; pointer-events:auto;}
+  .modal-box{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:20px;
+    max-width:640px; width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    transform:translateY(20px) scale(0.98);
+    transition:transform .3s ease;
+  }
+  .modal-overlay.active .modal-box{transform:translateY(0) scale(1);}
+  .modal-box img{width:100%; max-height:60vh; display:block; object-fit:contain; background:#0a0908; border-radius:20px 20px 0 0;}
+  .modal-content{padding:26px 30px 30px;}
+  .modal-content .p-tag{font-family:var(--font-mono); font-size:0.7rem; color:var(--red-bright); text-transform:uppercase; letter-spacing:1px;}
+  .modal-content h3{font-size:1.4rem; margin-top:10px;}
+  .modal-content p{margin-top:12px; color:var(--text-muted); font-size:0.92rem; line-height:1.6;}
+  .modal-actions{margin-top:22px; display:flex; gap:12px;}
+  .btn{
+    font-family:var(--font-mono); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;
+    padding:12px 22px; border-radius:9px; border:1px solid var(--border);
+    display:inline-flex; align-items:center; gap:8px;
+    transition:all .25s ease;
+  }
+  .btn-primary{background:var(--red); border-color:var(--red);}
+  .btn-primary:hover{background:var(--red-bright); border-color:var(--red-bright);}
+  .btn-ghost:hover{border-color:var(--text-muted);}
+  .modal-close{
+    position:absolute; top:16px; right:16px;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(0,0,0,0.4); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    color:var(--text); font-size:1.1rem; line-height:1;
+  }
+
+  /* ---------- skill ---------- */
+  .skill-section{padding:0 0 120px;}
+  .skill-grid{
+    max-width:1200px; margin:0 auto; padding:0 32px;
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;
+  }
+  .skill-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px 16px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:12px;
+    text-align:center;
+    transition:border-color .25s ease, transform .25s ease, background .25s ease;
+  }
+  .skill-card:hover{border-color:var(--red-bright); transform:translateY(-4px); background:var(--surface-2);}
+  .skill-card .s-icon{
+    width:42px; height:42px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .skill-card .s-icon img{width:100%; height:100%; object-fit:contain;}
+  .skill-card .s-name{font-weight:700; font-size:0.85rem;}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--border);
+    padding:30px 32px;
+    max-width:1200px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--text-muted);
+  }
+
+  @media (max-width:880px){
+    .nav-links{
+      position:absolute; top:100%; left:0; right:0; z-index:0;
+      background:var(--bg-alt); border-bottom:1px solid var(--border);
+      box-shadow:0 14px 24px rgba(0,0,0,0.45);
+      flex-direction:column; gap:0; padding:10px 0;
+      transform:translateY(-100%);
+      visibility:hidden;
+      pointer-events:none;
+      transition:transform .35s cubic-bezier(.2,.8,.2,1), visibility 0s linear .35s;
+    }
+    .nav-links.open{
+      transform:translateY(0);
+      visibility:visible;
+      pointer-events:auto;
+      transition:transform .35s cubic-bezier(.2,.8,.2,1), visibility 0s linear 0s;
+    }
+    .nav-links a{padding:14px 32px; width:100%; display:block;}
+    .nav-toggle{display:flex;}
+
+    .hero{grid-template-columns:1fr; padding-top:40px;}
+    .hero-right{order:-1; margin-bottom:20px; margin-top:-140px; height:auto;}
+    .id-card{width:220px;}
+
+    .project-grid{grid-template-columns:repeat(2,1fr); gap:12px;}
+    .project-card .p-body{padding:12px 12px 14px;}
+    .project-card h3{font-size:0.85rem; margin-top:6px;}
+    .project-card .p-tag{font-size:0.58rem;}
+    .project-card p{font-size:0.72rem; margin-top:5px; line-height:1.4;}
+    .skill-grid{grid-template-columns:repeat(3,1fr); gap:10px;}
+    footer{flex-direction:column; gap:8px; text-align:center;}
+  }
+
+  @media (max-width:420px){
+    .skill-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* ---------- scroll reveal: elemen muncul satu-satu saat masuk viewport ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(32px);
+    transition:opacity .75s cubic-bezier(.16,.84,.44,1), transform .75s cubic-bezier(.16,.84,.44,1);
+  }
+  .reveal.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .project-card.reveal,
+  .skill-card.reveal{
+    transition:opacity .75s cubic-bezier(.16,.84,.44,1),
+               transform .4s ease,
+               border-color .4s ease,
+               background .4s ease;
+  }
+  .hero-left .reveal:nth-child(1){transition-delay:.05s;}
+  .hero-left .reveal:nth-child(2){transition-delay:.16s;}
+  .hero-left .reveal:nth-child(3){transition-delay:.28s;}
+  .hero-left .reveal:nth-child(4){transition-delay:.4s;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1 !important; transform:none !important; transition:none !important;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .lanyard, .id-card{animation:none !important;}
+  }
+
+  html{scroll-padding-top:72px;}
+  .btn-ghost{background:transparent; color:var(--text); cursor:pointer;}
+  .nav-links{gap:24px;}
+  .nav-links a.nav-cv{border:1px solid var(--red-bright); border-radius:8px; padding:6px 14px; color:var(--text);}
+  .nav-links a.nav-cv::after{display:none;}
+  .nav-links a.nav-cv:hover{background:var(--red-deep);}
+  .skill-cat{max-width:1200px; margin:0 auto 14px; padding:0 32px; font-family:var(--font-mono); font-size:0.8rem; color:var(--red-bright); text-transform:uppercase; letter-spacing:1px;}
+  .skill-grid + .skill-cat{margin-top:34px;}
+  .skill-grid{grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));}
+  .skill-card .s-desc{font-size:0.78rem; color:var(--text-muted); line-height:1.5;}
+  .m-sec{margin-top:18px;}
+  .m-sec h4{font-family:var(--font-mono); font-size:0.7rem; color:var(--red-bright); text-transform:uppercase; letter-spacing:1px;}
+  .m-sec p{margin-top:6px;}
+  .exp-section, .contact-section{padding:0 0 110px;}
+  .exp-list, .contact-box{max-width:1200px; margin:0 auto; padding:0 32px;}
+  .exp-list{display:grid; gap:14px;}
+  .exp-card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px;}
+  .exp-card .e-time{font-family:var(--font-mono); font-size:0.72rem; color:var(--red-bright);}
+  .exp-card h3{font-size:1rem; margin-top:6px;}
+  .exp-card p{font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-top:6px;}
+  .contact-card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:34px 24px; text-align:center;}
+  .contact-card h3{font-size:1.3rem;}
+  .contact-card p{max-width:560px; margin:12px auto 0; color:var(--text-muted); font-size:0.92rem; line-height:1.6;}
+  .contact-actions{margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+  @media (max-width:880px){
+    .nav-links a.nav-cv{border:0; border-radius:0; padding:14px 32px; color:var(--red-bright);}
+    .exp-list, .contact-box, .skill-cat, .skill-grid{padding-left:32px; padding-right:32px;}
+  }
+
+  .exp-section{padding:70px 0 90px;}
+  .project-section{padding:0 0 90px;}
+  @media (max-width:880px){
+    .hero{min-height:auto; padding-bottom:10px;}
+    .exp-section{padding-top:50px;}
+  }
+
+  .social-title{scroll-margin-top:110px; margin-top:34px; font-family:var(--font-mono); font-size:0.8rem; color:var(--red-bright); text-transform:uppercase; letter-spacing:1px;}
+  .social-row{margin-top:12px; align-items:flex-start;}
+  .social-row a{position:relative; margin-bottom:20px;}
+  .social-row a::after{content:attr(data-label); position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:6px; font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); white-space:nowrap; letter-spacing:0.3px;}
+</style>
+</head>
+<body>
+
+<div class="bg-fx"></div>
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<header class="navbar" id="top">
+  <div class="nav-inner">
+    <a class="logo" href="#top"><span>GM</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#perkenalan">Perkenalan</a>
+      <a href="#pengalaman">Pengalaman</a>
+      <a href="#project">Proyek</a>
+      <a href="#skill">Keahlian</a>
+      <a href="#kontak">Kontak</a>
+      <!-- Ganti cv-okta.pdf dengan nama file CV kamu (taruh file-nya satu folder dengan index.html) -->
+      <a href="cv-okta.pdf" class="nav-cv" download>Unduh CV</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="perkenalan">
+  <div class="hero-left">
+    <p class="eyebrow reveal">PORTOFOLIO</p>
+    <h1 class="hero-name reveal">
+      <span class="line1">OKTA ADITYA</span>
+      <span class="line2">DWI NUGROHO<span class="accent"></span></span>
+    </h1>
+    <p class="hero-typing reveal"><span id="typing"></span><span class="cursor">|</span></p>
+
+    <p class="social-title reveal" id="kontak">Hubungi saya</p>
+    <div class="social-row reveal">
+      <a href="https://wa.me/6289524092925" target="_blank" rel="noopener" aria-label="WhatsApp" data-label="WhatsApp" class="social-wa">
+        <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 3C9.096 3 3.5 8.596 3.5 15.5c0 2.42.687 4.68 1.878 6.598L3 29l7.106-2.34a12.44 12.44 0 0 0 5.895 1.5h.005c6.905 0 12.5-5.596 12.5-12.5S22.906 3 16.001 3Zm0 22.75h-.004a10.34 10.34 0 0 1-5.27-1.443l-.378-.224-3.938 1.297 1.317-3.836-.246-.394a10.3 10.3 0 0 1-1.582-5.55c0-5.716 4.652-10.368 10.372-10.368 2.77 0 5.373 1.08 7.332 3.04a10.3 10.3 0 0 1 3.038 7.334c0 5.716-4.652 10.144-10.641 10.144Zm5.68-7.607c-.311-.156-1.84-.907-2.125-1.011-.285-.104-.492-.156-.699.156-.207.311-.802 1.011-.984 1.219-.181.207-.363.233-.673.078-.311-.156-1.313-.484-2.502-1.543-.925-.825-1.55-1.844-1.732-2.156-.181-.311-.02-.48.137-.635.14-.14.311-.363.467-.545.156-.181.207-.311.311-.519.104-.207.052-.389-.026-.545-.078-.156-.699-1.684-.958-2.307-.252-.605-.508-.523-.699-.533l-.595-.01c-.207 0-.545.078-.83.389-.285.311-1.09 1.065-1.09 2.599 0 1.534 1.116 3.016 1.272 3.224.156.207 2.196 3.354 5.32 4.703.743.321 1.323.513 1.775.656.746.237 1.424.204 1.961.124.598-.089 1.84-.752 2.1-1.478.259-.727.259-1.35.181-1.478-.078-.13-.285-.208-.596-.364Z"/></svg>
+      </a>
+      <a href="https://www.youtube.com/@GMEROPY" target="_blank" rel="noopener" aria-label="YouTube" data-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.5v5l5-2.5-5-2.5Z"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@jepstore.my.id" target="_blank" rel="noopener" aria-label="TikTok" data-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c0 2.5 2 4.5 4.5 4.5V11c-1.7 0-3.2-.6-4.5-1.6"/></svg>
+      </a>
+      <a href="https://www.instagram.com/gmeropyy" target="_blank" rel="noopener" aria-label="Instagram" data-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://jepstore.my.id/" target="_blank" rel="noopener" aria-label="Toko / Jepstore" data-label="Jepstore" class="social-toko">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9Z"/><path d="M2 9h20M6 3l6 6 6-6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="lanyard" id="lanyard">
+      <div class="strap"><span class="strap-text">JEPSTORE&nbsp;&nbsp;&nbsp;JEPSTORE&nbsp;&nbsp;&nbsp;JEPSTORE&nbsp;&nbsp;&nbsp;JEPSTORE&nbsp;&nbsp;&nbsp;JEPSTORE</span></div>
+      <div class="clip"></div>
+      <div class="id-card" id="idCard">
+        <div class="card-hole"></div>
+        <!-- Ganti src di bawah ini dengan foto asli kamu -->
+        <div class="card-photo">
+          <img src="images/foto-profil.png" alt="Foto Okta Aditya">
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-info">
+          <p class="card-role">Developer · Creator</p>
+        </div>
+        <p class="card-id">TI STUDENT</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="exp-section" id="pengalaman">
+  <div class="section-head reveal">
+    <span class="num">01</span>
+    <h2>Pengalaman</h2>
+    <span class="rule"></span>
+  </div>
+  <div class="exp-list">
+    <!-- Salin satu blok <div class="exp-card"> untuk menambah pengalaman. Hapus blok yang tidak dipakai. -->
+    <div class="exp-card reveal">
+      <span class="e-time">Pelatihan · Teknik Elektro UII</span>
+      <h3>Pelatihan Implementasi Internet of Things (IoT)</h3>
+      <p>Mengikuti pelatihan dasar implementasi Internet of Things menggunakan LED dan sensor DHT11 berbasis mikrokontroler yang diselenggarakan oleh Teknik Elektro Universitas Islam Indonesia (UII).</p>
+    </div>
+    <div class="exp-card reveal">
+      <span class="e-time">Bisnis Digital</span>
+      <h3>Founder &amp; Pengelola JEPSTORE</h3>
+      <p>Mengelola bisnis digital di bidang layanan top-up game dan voucher digital. Mengembangkan dan menyesuaikan website berbasis script yang telah tersedia dengan bantuan AI, termasuk penambahan fitur, pengelolaan produk, serta otomatisasi markup harga.</p>
+    </div>
+  </div>
+</section>
+
+<section class="project-section" id="project">
+  <div class="section-head reveal">
+    <span class="num">02</span>
+    <h2>Proyek</h2>
+    <span class="rule"></span>
+  </div>
+  <div class="project-grid" id="projectGrid"></div>
+</section>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <img id="modalImg" src="" alt="">
+    <div class="modal-content">
+      <span class="p-tag" id="modalTag"></span>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+      <div id="modalDetail"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modalCloseBtn">Tutup</button>
+        <a href="#" id="modalLink" target="_blank" rel="noopener" class="btn btn-primary">Kunjungi Website</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="skill-section" id="skill">
+  <div class="section-head reveal">
+    <span class="num">03</span>
+    <h2>Keahlian</h2>
+    <span class="rule"></span>
+  </div>
+  <p class="skill-cat">Pengembangan Web</p>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <div class="s-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"></div>
+      <span class="s-name">HTML</span>
+      <span class="s-desc">Membuat kerangka dan isi halaman website, dasar dari semua website yang saya buat.</span>
+    </div>
+    <div class="skill-card">
+      <div class="s-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"></div>
+      <span class="s-name">CSS</span>
+      <span class="s-desc">Mengatur warna, tata letak, dan animasi agar tampilan menarik dan nyaman di HP maupun komputer.</span>
+    </div>
+  </div>
+  <p class="skill-cat">Desain &amp; Konten</p>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <div class="s-icon"><img src="https://www.svgrepo.com/show/514564/alight-motion.svg" alt="Alight Motion"></div>
+      <span class="s-name">Alight Motion</span>
+      <span class="s-desc">Mengedit video untuk konten kreatif.</span>
+    </div>
+  </div>
+</section>
+
+<footer class="reveal">
+  <span>© GMEROPY 2026</span>
+</footer>
+
+<script>
+  // ---------- scroll reveal: elemen muncul satu-satu saat masuk viewport ----------
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ---------- posisi tali dihitung otomatis berdasarkan tinggi navbar asli ----------
+  // (biar tidak meleset saat pindah breakpoint: mobile, landscape, desktop, dst)
+  function positionLanyard(){
+    const navEl = document.querySelector('.navbar');
+    const heroRight = document.querySelector('.hero-right');
+    if(!navEl || !heroRight) return;
+
+    // simpan margin-top dasar dari CSS sekali saja, lalu SELALU hitung ulang dari basis ini
+    // (bukan dari nilai hasil perhitungan sebelumnya) supaya tidak menumpuk / salah kalau dipanggil berkali-kali
+    if (heroRight.dataset.baseMargin === undefined) {
+      heroRight.dataset.baseMargin = parseFloat(getComputedStyle(heroRight).marginTop) || 0;
+    }
+    const baseMargin = parseFloat(heroRight.dataset.baseMargin);
+    heroRight.style.marginTop = baseMargin + 'px';
+
+    const navBottom = navEl.getBoundingClientRect().bottom;
+    const heroRightTop = heroRight.getBoundingClientRect().top;
+    const desiredOverlap = 100; // seberapa jauh tali "nyelip" di belakang navbar
+    const diff = heroRightTop - (navBottom - desiredOverlap);
+    heroRight.style.marginTop = (baseMargin - diff) + 'px';
+  }
+
+  // di HP, address bar Chrome yang muncul/hilang saat scroll ikut memicu event 'resize'
+  // padahal lebar layar tidak berubah — kalau ikut dihitung ulang, kartu jadi melenceng.
+  // makanya resize cuma dipakai ulang kalau LEBAR-nya beneran berubah (resize asli / ganti orientasi).
+  let lastWidth = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth !== lastWidth) {
+      lastWidth = window.innerWidth;
+      positionLanyard();
+    }
+  });
+  window.addEventListener('load', positionLanyard);
+  window.addEventListener('orientationchange', () => setTimeout(positionLanyard, 150));
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(positionLanyard); }
+  positionLanyard();
+
+  // ---------- typing effect ----------
+  const roles = ["Web Developer", "Programmer", "Video Editor", "Content Creator"];
+  const typingEl = document.getElementById('typing');
+  let ri = 0, ci = 0, deleting = false;
+
+  function typeLoop(){
+    const current = roles[ri];
+    if(!deleting){
+      ci++;
+      typingEl.textContent = current.slice(0, ci);
+      if(ci === current.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+    } else {
+      ci--;
+      typingEl.textContent = current.slice(0, ci);
+      if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+    }
+    setTimeout(typeLoop, deleting ? 45 : 90);
+  }
+  typeLoop();
+
+  // ---------- lanyard (tali + klip + kartu): bisa digeser dengan jari, lalu memantul balik seperti lanyard asli ----------
+  const lanyard = document.getElementById('lanyard');
+  if (lanyard) {
+    let dragging = false;
+    let startX = 0, startY = 0;
+    let lastX = 0, lastY = 0, lastT = 0;
+    let velX = 0, velY = 0;          // kecepatan jari terakhir (px/ms), dipakai buat efek "lempar"
+    let rot = 0, rotVel = 0;         // rotasi (ayun kiri-kanan) & kecepatan sudutnya
+    let pull = 0, pullVel = 0;       // tarikan ke bawah & kecepatannya
+    let rafId = null;
+
+    // konstanta pegas: rotasi diredam ringan supaya berayun bolak-balik beberapa kali (hidup),
+    // tarikan ke bawah diredam lebih kuat supaya cuma memantul balik sekali lalu diam.
+    const ROT_K = 150, ROT_C = 9;
+    const PULL_K = 260, PULL_C = 22;
+
+    const applyTransform = () => {
+      lanyard.style.transform = `rotate(${rot.toFixed(2)}deg) translateY(${pull.toFixed(2)}px)`;
+    };
+
+    const setPoseFromDrag = (dx, dy) => {
+      rot = Math.max(-42, Math.min(42, -(dx / 4.2)));
+      pull = Math.max(0, Math.min(65, dy / 2.2));
+      applyTransform();
+    };
+
+    const stopSpring = () => { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } };
+
+    const runSpring = () => {
+      let last = performance.now();
+      const frame = (now) => {
+        let dt = (now - last) / 1000;
+        last = now;
+        dt = Math.min(dt, 0.032); // jaga stabil kalau ada lag
+
+        const rotAccel = -ROT_K * rot - ROT_C * rotVel;
+        rotVel += rotAccel * dt;
+        rot += rotVel * dt;
+
+        const pullAccel = -PULL_K * pull - PULL_C * pullVel;
+        pullVel += pullAccel * dt;
+        pull += pullVel * dt;
+
+        applyTransform();
+
+        const settled = Math.abs(rot) < 0.05 && Math.abs(rotVel) < 0.3 &&
+                         Math.abs(pull) < 0.05 && Math.abs(pullVel) < 0.3;
+        if (!settled) {
+          rafId = requestAnimationFrame(frame);
+        } else {
+          rot = 0; pull = 0; rotVel = 0; pullVel = 0;
+          lanyard.style.transform = '';
+          lanyard.classList.remove('settling');
+          rafId = null;
+        }
+      };
+      rafId = requestAnimationFrame(frame);
+    };
+
+    const onDown = (x, y) => {
+      stopSpring();
+      dragging = true;
+      startX = x; startY = y;
+      lastX = x; lastY = y; lastT = performance.now();
+      velX = 0; velY = 0;
+      lanyard.classList.add('dragging');
+      lanyard.classList.remove('settling');
+    };
+    const onMove = (x, y) => {
+      if (!dragging) return;
+      const now = performance.now();
+      const dt = Math.max(now - lastT, 1);
+      velX = (x - lastX) / dt;
+      velY = (y - lastY) / dt;
+      lastX = x; lastY = y; lastT = now;
+      setPoseFromDrag(x - startX, y - startY);
+    };
+    const onUp = () => {
+      if (!dragging) return;
+      dragging = false;
+      lanyard.classList.remove('dragging');
+      lanyard.classList.add('settling');
+      // kecepatan jari saat dilepas ikut "dilempar" jadi kecepatan awal pegas
+      rotVel = Math.max(-280, Math.min(280, -(velX * 1000) / 4.2));
+      pullVel = Math.max(-340, Math.min(340, (velY * 1000) / 2.2));
+      runSpring();
+    };
+
+    lanyard.addEventListener('pointerdown', e => {
+      lanyard.setPointerCapture(e.pointerId);
+      onDown(e.clientX, e.clientY);
+    });
+    lanyard.addEventListener('pointermove', e => onMove(e.clientX, e.clientY));
+    lanyard.addEventListener('pointerup', onUp);
+    lanyard.addEventListener('pointercancel', onUp);
+    lanyard.addEventListener('pointerleave', () => { if (dragging) onUp(); });
+  }
+
+  // ---------- mobile nav ----------
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // ---------- project data (ganti sesuai project asli kamu) ----------
+  const projects = [
+    {
+      tag:'Bio Link / Portfolio',
+      title:'Portofolio & Layanan Kreatif Digital',
+      desc:'Halaman bio link untuk jasa design dengan tampilan gelap dan elegan, lengkap dengan tautan sosial media dan tombol order langsung.',
+    detail:{
+      latar:'Website bio link untuk memperkenalkan dan menawarkan layanan kreatif dengan brand Dwi Depinn~, meliputi desain poster, GFX, desain QRIS, banner YouTube, dan editing video. Website dilengkapi galeri karya, informasi layanan, serta akses pemesanan.',
+      peran:'Menentukan konsep, desain, fitur, dan kebutuhan website melalui instruksi kepada AI Claude. Menyediakan aset gambar dan informasi layanan, serta mengunggah dan memublikasikan hasil website melalui GitHub.',
+      proses:'Memanfaatkan AI Claude untuk membantu proses pembuatan website berdasarkan arahan yang diberikan. Menyiapkan aset visual, menentukan kebutuhan fitur, serta menggunakan GitHub untuk mengunggah dan memublikasikan website.',
+      hasil:'Menghasilkan website layanan kreatif digital yang menampilkan profil, galeri portofolio, informasi harga, testimoni pelanggan, dan tombol pemesanan secara online.'
+    },
+      img:'images/project-dwidepinn.jpg',
+      link:'https://gmeropy.github.io/Dwi-Depinn-/'
+    },
+    {
+      tag:'Website Sekolah',
+      title:'Website Informasi HUT ke-28 SMAN 1 Cangkringan',
+      desc:'Website resmi perayaan HUT sekolah ke-28, menampilkan tema acara, rundown, daftar kegiatan, hingga podcast dalam satu halaman informatif.',
+    detail:{
+      latar:'Website ini dibuat sebagai media informasi digital untuk memperingati HUT SMAN 1 Cangkringan ke-28. Website menampilkan informasi mengenai tema acara, rundown, daftar kegiatan, hingga podcast agar dapat diakses dengan mudah oleh warga sekolah dan pengunjung.',
+      peran:'Saya memanfaatkan bantuan AI Claude dalam proses pembuatan website dengan memberikan instruksi sesuai kebutuhan proyek. Saya juga menyediakan foto sebagai bahan pendukung serta membagikan tautan website yang telah selesai dibuat.',
+      proses:'Proses pembuatan website dilakukan dengan bantuan AI Claude melalui pemberian instruksi dan penyesuaian hasil sesuai kebutuhan. Saya juga menyiapkan bahan pendukung berupa foto untuk melengkapi tampilan website.<br><br>Tantangannya adalah memastikan hasil website sesuai dengan informasi dan tujuan yang ingin disampaikan.',
+      hasil:'Menghasilkan website informasi HUT SMAN 1 Cangkringan ke-28 yang dapat diakses secara online. Website ini menjadi media informasi digital untuk menyampaikan rangkaian kegiatan dan dokumentasi perayaan HUT sekolah.'
+    },
+      img:'images/project-smanca.jpg',
+      link:'https://ultah28.sman1cangkringan.sch.id/'
+    },
+    {
+      tag:'E-Commerce / Top Up',
+      title:'Jepstore — Website Top Up Game Online',
+      desc:'Jepstore merupakan platform top up game online yang menyediakan berbagai produk digital seperti kredit game, voucher, dan layanan dompet digital. Website ini dikembangkan dengan melakukan penyesuaian fitur dan tampilan menggunakan bantuan AI agar sesuai dengan kebutuhan usaha.',
+    detail:{
+      latar:'Jepstore adalah website top up game online milik saya yang dibuat sebagai proyek pribadi sekaligus usaha digital. Website ini bertujuan untuk memudahkan pengguna dalam melakukan pembelian produk digital secara praktis dan mudah.',
+      peran:'Saya melakukan pengembangan dan penyesuaian website Jepstore menggunakan script website yang diperoleh dari sumber online. Dengan bantuan Claude AI, saya menambahkan dan menyesuaikan beberapa fitur, seperti sistem voucher, markup harga otomatis, pengambilan data produk secara otomatis, serta mengubah informasi kontak, layanan, dan identitas website sesuai dengan brand Jepstore.',
+      proses:'Proses pengembangan dilakukan dengan mempelajari script website yang tersedia dan memanfaatkan Claude AI untuk membantu melakukan modifikasi serta penambahan fitur. Tantangan dalam proyek ini adalah menyesuaikan fitur yang ada dengan kebutuhan usaha, serta memastikan tampilan dan informasi website sesuai dengan identitas Jepstore.',
+      hasil:'Website Jepstore berhasil dikembangkan dengan tampilan dan fitur yang telah disesuaikan dengan kebutuhan usaha. Proyek ini memberikan pengalaman dalam mengelola website, memanfaatkan AI untuk membantu pengembangan, serta memahami proses penyesuaian fitur pada platform digital.'
+    },
+      img:'images/project-jepstore.jpg',
+      link:'https://jepstore.my.id/'
+    }
+  ];
+
+  const projectGrid = document.getElementById('projectGrid');
+  projects.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'project-card reveal';
+    card.style.transitionDelay = (i * 0.12) + 's';
+    card.innerHTML = `
+      <img class="thumb" src="${p.img}" alt="${p.title}">
+      <div class="p-body">
+        <span class="p-tag">${p.tag}</span>
+        <h3>${p.title}</h3>
+        <p>${p.desc.slice(0, 70)}...</p>
+      </div>
+    `;
+    card.addEventListener('click', () => openModal(i));
+    projectGrid.appendChild(card);
+    revealObserver.observe(card);
+  });
+
+  // ---------- modal ----------
+  const overlay = document.getElementById('modalOverlay');
+  const modalImg = document.getElementById('modalImg');
+  const modalTag = document.getElementById('modalTag');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalLink = document.getElementById('modalLink');
+
+  function openModal(i){
+    const p = projects[i];
+    modalImg.src = p.img;
+    modalImg.alt = p.title;
+    modalTag.textContent = p.tag;
+    modalTitle.textContent = p.title;
+    modalDesc.textContent = p.desc;
+    const d = p.detail;
+    const sec = (t, x) => `<div class="m-sec"><h4>${t}</h4><p>${x}</p></div>`;
+    document.getElementById('modalDetail').innerHTML =
+      sec('Latar Belakang', d.latar) + sec('Peran &amp; Kontribusi', d.peran) +
+      sec('Proses &amp; Tantangan', d.proses) + sec('Hasil', d.hasil);
+    modalLink.href = p.link;
+    overlay.classList.add('active');
+  }
+  function closeModal(){ overlay.classList.remove('active'); }
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+</script>
+
+</body>
+</html>
